@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies/src/widgets/card_swiper_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,7 +29,9 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _swiperTargets(){
-    return Container();
+    return CardSwiper(
+      movies: [1,2,3],
+    );
   }
 
 }
