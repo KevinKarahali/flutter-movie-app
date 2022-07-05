@@ -6,9 +6,29 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        title: Text('Movies App'),
+        backgroundColor: Colors.indigoAccent,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {},
+          )
+        ],
+      ),
       body: SafeArea(
-        child: Text('Home Page'),
+        child: Column(
+          children:[
+            _swiperTargets(),
+          ]
+        ),
       )
     );
   }
+
+  Widget _swiperTargets(){
+    return Container();
+  }
+
 }
