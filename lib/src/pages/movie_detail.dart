@@ -15,6 +15,21 @@ class MovieDetail extends StatelessWidget{
       body: CustomScrollView(
         slivers: [
           _createAppbar(movie),
+          SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  SizedBox(height: 10.0),
+                  _posterTitle( context ,movie),
+                  _description(movie),
+                  _description(movie),
+                  _description(movie),
+                  _description(movie),
+                  _description(movie),
+                  _description(movie),
+                  _description(movie),
+                ]
+              ),
+          )
         ],
       )
     );
@@ -39,6 +54,49 @@ class MovieDetail extends StatelessWidget{
           fadeInDuration: Duration(milliseconds: 150),
           fit: BoxFit.cover,
         ),
+      ),
+    );
+  }
+
+  _posterTitle(BuildContext context ,Movie movie) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: Image(
+              image: NetworkImage(movie.getPosterImg()),
+              height: 150.0,
+            ),
+          ),
+          SizedBox(width: 20.0,),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(movie.title, style: Theme.of(context).textTheme.titleLarge, overflow: TextOverflow.ellipsis,),
+                // Text(movie.popularity.toString()),
+                Row(
+                  children: [
+                    Icon(Icons.star_border),
+                    Text(movie.voteAverage.toString(), style: Theme.of(context).textTheme.subtitle1)
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  _description(Movie movie) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+      child: Text(
+        movie.overview,
+            textAlign: TextAlign.justify,
       ),
     );
   }
