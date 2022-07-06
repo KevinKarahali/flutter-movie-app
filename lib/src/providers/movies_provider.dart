@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../models/actors_model.dart';
 import '../models/movies_model.dart';
 
 class MoviesProvider {
@@ -12,7 +13,7 @@ class MoviesProvider {
   int _popularPage = 0;
   bool _loading = false;
 
-  List<Movie> _popular =  [];
+  List<Movie> _popular = [];
 
   final _popularStreamController = StreamController<List<Movie>>.broadcast();
 
@@ -20,7 +21,7 @@ class MoviesProvider {
 
   Stream<List<Movie>> get popularStream => _popularStreamController.stream;
 
-  void disposeStreams(){
+  void disposeStreams() {
     _popularStreamController.close();
   }
 
@@ -39,16 +40,13 @@ class MoviesProvider {
   }
 
   Future<List<Movie>> getPopularMovies() async {
-
     if (_loading) return [];
 
     _loading = true;
 
     _popularPage++;
-    final url = Uri.https(_url, '3/movie/popular', {
-      'api_key': _apiKey,
-      'page' : _popularPage.toString()
-    });
+    final url = Uri.https(_url, '3/movie/popular',
+        {'api_key': _apiKey, 'page': _popularPage.toString()});
 
     final resp = await _processResponse(url);
 
@@ -56,6 +54,15 @@ class MoviesProvider {
     popularSink(_popular);
     _loading = false;
     return resp;
+  }
 
+  Future<List<Actor>> getCast(String movieId) async {
+    final url = Uri.https(_url, '3/movie/$movieId/credits', {
+      'api_key': _apiKey,
+    });
+    final response = await http.get(url);
+    final decodedData = json.decode(response.body);
+    final cast = Cast.fromJsonList(decodedData['cast']);
+    return cast.actors;
   }
 }
