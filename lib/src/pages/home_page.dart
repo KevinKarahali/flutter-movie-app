@@ -9,49 +9,60 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: Text('Movies App'),
-        backgroundColor: Colors.indigoAccent,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {},
-          )
+        appBar: AppBar(
+          centerTitle: false,
+          title: Text('Movies App'),
+          backgroundColor: Colors.indigoAccent,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {},
+            )
+          ],
+        ),
+        body: SafeArea(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [_swiperTargets(), _footer(context)]),
+        ));
+  }
+
+  Widget _swiperTargets() {
+    return FutureBuilder(
+      future: moviesProvider.getMovies(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        moviesProvider.getMovies();
+        if (snapshot.hasData) {
+          return CardSwiper(
+            movies: snapshot.data,
+          );
+        } else {
+          return Container(
+            height: 400.0,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        // return CardSwiper(movies: snapshot.data,);
+      },
+    );
+  }
+
+  Widget _footer(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      child: Column(
+        children: <Widget>[
+          Text('Populate movies', style: Theme.of(context).textTheme.subtitle1),
+          FutureBuilder(
+              future: moviesProvider.getPopularMovies(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                snapshot.data.forEach((movie) => print(movie.title));
+                return Container();
+              })
         ],
       ),
-      body: SafeArea(
-        child: Column(
-          children:[
-            _swiperTargets(),
-          ]
-        ),
-      )
     );
   }
-
-  Widget _swiperTargets(){
-
-    return FutureBuilder(
-        future: moviesProvider.getPopular(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          moviesProvider.getPopular();
-          if (snapshot.hasData) {
-            return CardSwiper(
-              movies: snapshot.data,
-            );
-          } else {
-            return Container(
-              height: 400.0,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-          // return CardSwiper(movies: snapshot.data,);
-        },
-    );
-
-  }
-
 }

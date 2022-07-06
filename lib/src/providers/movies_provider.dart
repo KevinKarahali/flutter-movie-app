@@ -7,15 +7,24 @@ class MoviesProvider {
   final String _apiKey = '428a586101b2201a77ef8fa9e98c090f';
   final String _url = 'api.themoviedb.org';
 
-
-Future<List<Movie>> getPopular() async {
-    final url = Uri.https(_url, '3/movie/popular', {
-      'api_key': _apiKey,
-    });
-    final resp = await http.get(url);
-    final decodedData = json.decode(resp.body);
-    final movies = Movies.fromJsonList(decodedData['results']);
+  Future<List<Movie>> _processResponse(Uri url) async {
+    final response = await http.get(url);
+    final decodedData = json.decode(response.body);
+    final movies = new Movies.fromJsonList(decodedData['results']);
     return movies.items;
   }
 
+  Future<List<Movie>> getMovies() async {
+    final url = Uri.https(_url, '3/movie/now_playing', {
+      'api_key': _apiKey,
+    });
+    return await _processResponse(url);
+  }
+
+  Future<List<Movie>> getPopularMovies() async {
+    final url = Uri.https(_url, '3/movie/popular', {
+      'api_key': _apiKey,
+    });
+    return await _processResponse(url);
+  }
 }
