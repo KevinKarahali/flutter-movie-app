@@ -58,7 +58,7 @@ class HomePage extends StatelessWidget {
         children: <Widget>[
           Container(
             padding: EdgeInsets.only(left: 20.0),
-            child: Text('Populate movies', style: Theme
+            child: Text('Popular movies', style: Theme
                 .of(context)
                 .textTheme
                 .subtitle1),
