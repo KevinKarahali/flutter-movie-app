@@ -10,6 +10,7 @@ class MoviesProvider {
   final String _url = 'api.themoviedb.org';
 
   int _popularPage = 0;
+  bool _loading = false;
 
   List<Movie> _popular =  [];
 
@@ -30,7 +31,7 @@ class MoviesProvider {
     return movies.items;
   }
 
-  Future<List<Movie>> getMovies() async {
+  Future<List<Movie>> getMoviesCinema() async {
     final url = Uri.https(_url, '3/movie/now_playing', {
       'api_key': _apiKey,
     });
@@ -38,6 +39,11 @@ class MoviesProvider {
   }
 
   Future<List<Movie>> getPopularMovies() async {
+
+    if (_loading) return [];
+
+    _loading = true;
+
     _popularPage++;
     final url = Uri.https(_url, '3/movie/popular', {
       'api_key': _apiKey,
@@ -48,6 +54,7 @@ class MoviesProvider {
 
     _popular.addAll(resp);
     popularSink(_popular);
+    _loading = false;
     return resp;
 
   }
