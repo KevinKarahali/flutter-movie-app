@@ -45,6 +45,7 @@ class MoviesProvider {
     });
 
     final resp = await _processResponse(url);
+
     _popular.addAll(resp);
     popularSink(_popular);
     return resp;
