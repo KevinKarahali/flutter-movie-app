@@ -8,15 +8,11 @@ class MovieHorizontal extends StatelessWidget {
 
   MovieHorizontal({required this.movies, required this.nextPage});
 
-  final _pageController = PageController(
-      initialPage: 1,
-      viewportFraction: 0.3
-  );
+  final _pageController = PageController(initialPage: 1, viewportFraction: 0.3);
 
   @override
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
-
 
     _pageController.addListener(() {
       if (_pageController.position.pixels >=
@@ -36,8 +32,8 @@ class MovieHorizontal extends StatelessWidget {
     );
   }
 
- Widget _target(BuildContext context, Movie movie){
-    final target =  Container(
+  Widget _target(BuildContext context, Movie movie) {
+    final target = Container(
       margin: EdgeInsets.only(right: 15.0),
       child: Column(
         children: [
@@ -61,7 +57,7 @@ class MovieHorizontal extends StatelessWidget {
     );
     return GestureDetector(
       child: target,
-      onTap: (){
+      onTap: () {
         Navigator.pushNamed(context, 'detail', arguments: movie);
       },
     );
@@ -94,5 +90,4 @@ class MovieHorizontal extends StatelessWidget {
       );
     }).toList();
   }
-
 }

@@ -5,8 +5,6 @@ import 'package:movies/src/providers/movies_provider.dart';
 class DataSearch extends SearchDelegate {
   String selection = '';
   final moviesProvider = MoviesProvider();
-  final movies = ['spiderman', 'batman'];
-  final moviesRecent = ['spiderman', 'capitan america'];
 
   @override
   List<Widget>? buildActions(BuildContext context) {
